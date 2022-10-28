@@ -1,9 +1,37 @@
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { ArrowSquareOut } from '../assets/ArrowSquareOut'
 import { BuildingSolid } from '../assets/BuildingSolid'
 import { GithubBrand } from '../assets/GithubBrand'
 import { UserGroup } from '../assets/UserGroup'
 
+interface UserProps {
+  login: string
+  id: number
+  html_url: string
+  avatar_url: string
+  name: string
+  company: string
+  location: string
+  bio: string
+  public_repos: 15
+  followers: 14
+  following: 9
+}
+
 export function Home() {
+  const [user, setUser] = useState({} as UserProps)
+
+  async function fetchUser() {
+    const response = await axios.get('https://api.github.com/users/brunosllz')
+
+    setUser(response.data)
+  }
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
+
   return (
     <main className="bg-base-background max-w-[864px] mx-auto flex flex-col gap-12">
       <header className="py-8 px-10 flex gap-8 bg-base-profile rounded-[10px] -mt-[106px] overflow-hidden">
@@ -17,10 +45,10 @@ export function Home() {
 
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <strong className="text-2xl text-base-title">Bruno Luiz</strong>
+            <strong className="text-2xl text-base-title">{user.name}</strong>
 
             <a
-              href="https://github.com/brunosllz"
+              href={user.html_url}
               target="_blank"
               className=" text-blue font-bold flex items-center gap-2"
               rel="noreferrer"
@@ -30,24 +58,20 @@ export function Home() {
             </a>
           </div>
 
-          <p className="leading-[160%]">
-            Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-            viverra massa quam dignissim aenean malesuada suscipit. Nunc,
-            volutpat pulvinar vel mass.
-          </p>
+          <p className="leading-[160%]">{user.bio}</p>
 
           <div className="flex items-center gap-6 mt-4">
             <div className="flex items-center gap-2">
               <GithubBrand />
-              <span className="text-base-subtitle">brunosllz</span>
+              <span className="text-base-subtitle">{user.login}</span>
             </div>
             <div className="flex items-center gap-2">
               <BuildingSolid />
-              <span>Rocketseat</span>
+              <span>{user.company}</span>
             </div>
             <div className="flex items-center gap-2">
               <UserGroup />
-              <span>32 seguidores</span>
+              <span>{user.followers} seguidores</span>
             </div>
           </div>
         </div>
