@@ -8,20 +8,7 @@ import { ArrowSquareOut } from '../assets/ArrowSquareOut'
 import { BuildingSolid } from '../assets/BuildingSolid'
 import { GithubBrand } from '../assets/GithubBrand'
 import { UserGroup } from '../assets/UserGroup'
-
-export interface UserProps {
-  login: string
-  id: number
-  html_url: string
-  avatar_url: string
-  name: string
-  company: string
-  location: string
-  bio: string
-  public_repos: 15
-  followers: 14
-  following: 9
-}
+import { useFetchUser } from '../hooks/useUserData'
 
 interface IssuesProps {
   number: number
@@ -31,16 +18,11 @@ interface IssuesProps {
 }
 
 export function Home() {
-  const [user, setUser] = useState({} as UserProps)
   const [issues, setIssues] = useState<IssuesProps[]>([])
   const [loading, setLoading] = useState(false)
   const [searchIssue, setSearchIssue] = useState('')
 
-  async function fetchUser() {
-    const response = await axios.get('https://api.github.com/users/brunosllz')
-
-    setUser(response.data)
-  }
+  const { data } = useFetchUser()
 
   async function fetchIssues() {
     setLoading(true)
@@ -51,10 +33,6 @@ export function Home() {
     setIssues(response.data.items)
     setLoading(false)
   }
-
-  useEffect(() => {
-    fetchUser()
-  }, [])
 
   useEffect(() => {
     fetchIssues()
@@ -84,10 +62,10 @@ export function Home() {
 
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <strong className="text-2xl text-base-title">{user.name}</strong>
+            <strong className="text-2xl text-base-title">{data?.name}</strong>
 
             <a
-              href={user.html_url}
+              href={data?.html_url}
               target="_blank"
               className=" text-blue font-bold flex items-center gap-2"
               rel="noreferrer"
@@ -97,20 +75,20 @@ export function Home() {
             </a>
           </div>
 
-          <p className="leading-[160%]">{user.bio}</p>
+          <p className="leading-[160%]">{data?.bio}</p>
 
           <div className="flex items-center gap-6 mt-4">
             <div className="flex items-center gap-2">
               <GithubBrand />
-              <span className="text-base-subtitle">{user.login}</span>
+              <span className="text-base-subtitle">{data?.login}</span>
             </div>
             <div className="flex items-center gap-2">
               <BuildingSolid />
-              <span>{user.company}</span>
+              <span>{data?.company}</span>
             </div>
             <div className="flex items-center gap-2">
               <UserGroup />
-              <span>{user.followers} seguidores</span>
+              <span>{data?.followers} seguidores</span>
             </div>
           </div>
         </div>
