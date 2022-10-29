@@ -19,8 +19,17 @@ interface UserProps {
   following: 9
 }
 
+interface IssuesProps {
+  number: number
+  title: string
+  body: string
+  created_at: Date
+}
+
 export function Home() {
   const [user, setUser] = useState({} as UserProps)
+  const [issues, setIssues] = useState<IssuesProps[]>([])
+  const [loading, setLoading] = useState(false)
 
   async function fetchUser() {
     const response = await axios.get('https://api.github.com/users/brunosllz')
@@ -28,8 +37,22 @@ export function Home() {
     setUser(response.data)
   }
 
+  async function fetchIssues() {
+    setLoading(true)
+    const response = await axios.get(
+      'https://api.github.com/search/issues?q=repo:brunosllz/github-blog',
+    )
+
+    setLoading(false)
+    setIssues(response.data.items)
+  }
+
   useEffect(() => {
     fetchUser()
+  }, [])
+
+  useEffect(() => {
+    fetchIssues()
   }, [])
 
   return (
@@ -89,61 +112,26 @@ export function Home() {
       </div>
 
       <ul className="grid grid-cols-2 gap-8 mb-14">
-        <li className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors">
-          <div className="flex justify-between">
-            <strong className="text-base-title text-xl max-w-[280px]">
-              JavaScript data types and data structures
-            </strong>
-            <span className="block text-sm text-base-span">Há 1 dia</span>
-          </div>
-          <p>
-            Programming languages all have built-in data structures, but these
-            often differ from one language to another. This article attempts to
-            list the built-in data structures available in...
-          </p>
-        </li>
-
-        <li className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors">
-          <div className="flex justify-between">
-            <strong className="text-base-title text-xl max-w-[280px]">
-              JavaScript data types and data structures
-            </strong>
-            <span className="block text-sm text-base-span">Há 1 dia</span>
-          </div>
-          <p>
-            Programming languages all have built-in data structures, but these
-            often differ from one language to another. This article attempts to
-            list the built-in data structures available in...
-          </p>
-        </li>
-
-        <li className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors">
-          <div className="flex justify-between">
-            <strong className="text-base-title text-xl max-w-[280px]">
-              JavaScript data types and data structures
-            </strong>
-            <span className="block text-sm text-base-span">Há 1 dia</span>
-          </div>
-          <p>
-            Programming languages all have built-in data structures, but these
-            often differ from one language to another. This article attempts to
-            list the built-in data structures available in...
-          </p>
-        </li>
-
-        <li className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors">
-          <div className="flex justify-between">
-            <strong className="text-base-title text-xl max-w-[280px]">
-              JavaScript data types and data structures
-            </strong>
-            <span className="block text-sm text-base-span">Há 1 dia</span>
-          </div>
-          <p>
-            Programming languages all have built-in data structures, but these
-            often differ from one language to another. This article attempts to
-            list the built-in data structures available in...
-          </p>
-        </li>
+        {!loading ? (
+          issues.map((issue) => {
+            return (
+              <li
+                key={issue.number}
+                className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors"
+              >
+                <div className="flex justify-between">
+                  <strong className="text-base-title text-xl max-w-[280px]">
+                    {issue.title}
+                  </strong>
+                  <span className="block text-sm text-base-span">Há 1 dia</span>
+                </div>
+                <p className="line-clamp-4 ">{issue.body}</p>
+              </li>
+            )
+          })
+        ) : (
+          <div>loading</div>
+        )}
       </ul>
     </main>
   )
