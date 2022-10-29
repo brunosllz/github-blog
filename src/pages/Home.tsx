@@ -8,7 +8,6 @@ import { BuildingSolid } from '../assets/BuildingSolid'
 import { GithubBrand } from '../assets/GithubBrand'
 import { UserGroup } from '../assets/UserGroup'
 import { IssueCard } from '../components/IssueCard'
-import { Link } from 'react-router-dom'
 
 export function Home() {
   const [searchIssue, setSearchIssue] = useState('')
@@ -42,14 +41,15 @@ export function Home() {
           <div className="flex items-center justify-between">
             <strong className="text-2xl text-base-title">{user?.name}</strong>
 
-            <Link
-              to={user?.html_url!}
+            <a
+              href={user?.html_url!}
+              target="_blank"
               className=" text-blue font-bold flex items-center gap-2"
               rel="noreferrer"
             >
               GITHUB
               <ArrowSquareOut />
-            </Link>
+            </a>
           </div>
 
           <p className="leading-[160%]">{user?.bio}</p>
