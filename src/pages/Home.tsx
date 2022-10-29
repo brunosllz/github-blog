@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { ArrowSquareOut } from '../assets/ArrowSquareOut'
 import { BuildingSolid } from '../assets/BuildingSolid'
 import { GithubBrand } from '../assets/GithubBrand'
@@ -115,18 +116,19 @@ export function Home() {
         {!loading ? (
           issues.map((issue) => {
             return (
-              <li
-                key={issue.number}
-                className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors"
-              >
-                <div className="flex justify-between">
-                  <strong className="text-base-title text-xl max-w-[280px]">
-                    {issue.title}
-                  </strong>
-                  <span className="block text-sm text-base-span">Há 1 dia</span>
-                </div>
-                <p className="line-clamp-4 ">{issue.body}</p>
-              </li>
+              <Link key={issue.number} to="issues/details">
+                <li className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors">
+                  <div className="flex justify-between">
+                    <strong className="text-base-title text-xl max-w-[280px]">
+                      {issue.title}
+                    </strong>
+                    <span className="block text-sm text-base-span">
+                      Há 1 dia
+                    </span>
+                  </div>
+                  <p className="line-clamp-4 ">{issue.body}</p>
+                </li>
+              </Link>
             )
           })
         ) : (
