@@ -23,6 +23,7 @@ async function fetchUser() {
 
 export function useFetchUser() {
   return useQuery<UserProps, Error>(['user'], fetchUser, {
-    staleTime: 60000 * 2, // 2 minutes,
+    cacheTime: 60000 * 15, // 15 minutes
+    staleTime: 60000 * 13, // 2 minutes,
   })
 }

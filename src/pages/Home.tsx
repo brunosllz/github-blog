@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useFetchIssues } from '../hooks/useIssuesData'
 import { useFetchUser } from '../hooks/useUserData'
-import axios from 'axios'
 
 import { ArrowSquareOut } from '../assets/ArrowSquareOut'
 import { BuildingSolid } from '../assets/BuildingSolid'
@@ -13,18 +12,9 @@ export function Home() {
   const [searchIssue, setSearchIssue] = useState('')
 
   const { data: user } = useFetchUser()
-  const { data: issues } = useFetchIssues()
+  const { issues } = useFetchIssues(searchIssue)
 
-  useEffect(() => {
-    async function searchIssueFilter() {
-      const response = await axios.get(
-        `https://api.github.com/search/issues?q=repo:brunosllz/github-blog%20${searchIssue}`,
-      )
-
-      console.log(response)
-    }
-    searchIssueFilter()
-  }, [searchIssue])
+  const hasIssues = issues?.length! > 0
 
   return (
     <main className="bg-base-background max-w-[864px] mx-auto flex flex-col gap-12">
@@ -95,6 +85,7 @@ export function Home() {
           return <IssueCard data={issue} key={issue.number} />
         })}
       </ul>
+      {!hasIssues && <div>Não foi posssivel achar um issue</div>}
     </main>
   )
 }

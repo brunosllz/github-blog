@@ -15,8 +15,6 @@ export function IssueDetails() {
 
   const { data: issue } = useFetchIssueDetails(id)
 
-  console.log(issue)
-
   return (
     <main className="bg-base-background max-w-[864px] mx-auto flex flex-col">
       {

@@ -10,17 +10,31 @@ interface IssuesProps {
 
 async function fetchIssues() {
   const response = await axios.get(
-    'https://api.github.com/search/issues?q=repo:brunosllz/github-blog',
+    `https://api.github.com/search/issues?q=repo:brunosllz/github-blog`,
   )
 
-  console.log(response.data.items)
   return response.data.items
 }
 
-export function useFetchIssues() {
-  return useQuery<IssuesProps[], Error>(['issues'], fetchIssues, {
-    staleTime: 60000 * 2, // 2 minutes,
-  })
+export function useFetchIssues(searchIssue?: string) {
+  const queryResponse = useQuery<IssuesProps[], Error>(
+    ['issues'],
+    fetchIssues,
+    {
+      cacheTime: 60000 * 10, // 10 minutes
+      staleTime: 60000 * 8, // 8 minutes,
+    },
+  )
+
+  if (searchIssue) {
+    const issueFilter = queryResponse.data?.filter((issue) =>
+      issue.title.toLowerCase().includes(searchIssue.toLowerCase()),
+    )
+
+    return { issues: issueFilter, ...queryResponse }
+  }
+
+  return { issues: queryResponse.data, ...queryResponse }
 }
 
 interface IssueDetailsProps {
