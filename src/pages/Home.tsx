@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
+import { useFetchIssues } from '../hooks/useIssuesData'
+import { useFetchUser } from '../hooks/useUserData'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
-import ReactMarkDown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 
 import { ArrowSquareOut } from '../assets/ArrowSquareOut'
 import { BuildingSolid } from '../assets/BuildingSolid'
 import { GithubBrand } from '../assets/GithubBrand'
 import { UserGroup } from '../assets/UserGroup'
-import { useFetchUser } from '../hooks/useUserData'
-import { useFetchIssues } from '../hooks/useIssuesData'
+import { IssueCard } from '../components/IssueCard'
+import { Link } from 'react-router-dom'
 
 export function Home() {
   const [searchIssue, setSearchIssue] = useState('')
@@ -43,15 +42,14 @@ export function Home() {
           <div className="flex items-center justify-between">
             <strong className="text-2xl text-base-title">{user?.name}</strong>
 
-            <a
-              href={user?.html_url}
-              target="_blank"
+            <Link
+              to={user?.html_url!}
               className=" text-blue font-bold flex items-center gap-2"
               rel="noreferrer"
             >
               GITHUB
               <ArrowSquareOut />
-            </a>
+            </Link>
           </div>
 
           <p className="leading-[160%]">{user?.bio}</p>
@@ -94,24 +92,7 @@ export function Home() {
 
       <ul className="grid grid-cols-2 gap-8 mb-14">
         {issues?.map((issue) => {
-          return (
-            <Link key={issue.number} to={`issues/details/${issue.number}`}>
-              <li className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors">
-                <div className="flex justify-between">
-                  <strong className="text-base-title text-xl max-w-[280px]">
-                    {issue.title}
-                  </strong>
-                  <span className="block text-sm text-base-span">Há 1 dia</span>
-                </div>
-                <ReactMarkDown
-                  remarkPlugins={[remarkGfm]}
-                  className="line-clamp-4 "
-                >
-                  {issue.body}
-                </ReactMarkDown>
-              </li>
-            </Link>
-          )
+          return <IssueCard data={issue} key={issue.number} />
         })}
       </ul>
     </main>
