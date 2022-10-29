@@ -34,6 +34,7 @@ export function Home() {
   const [user, setUser] = useState({} as UserProps)
   const [issues, setIssues] = useState<IssuesProps[]>([])
   const [loading, setLoading] = useState(false)
+  const [searchIssue, setSearchIssue] = useState('')
 
   async function fetchUser() {
     const response = await axios.get('https://api.github.com/users/brunosllz')
@@ -47,8 +48,8 @@ export function Home() {
       'https://api.github.com/search/issues?q=repo:brunosllz/github-blog',
     )
 
-    setLoading(false)
     setIssues(response.data.items)
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -58,6 +59,17 @@ export function Home() {
   useEffect(() => {
     fetchIssues()
   }, [])
+
+  useEffect(() => {
+    async function searchIssueFilter() {
+      const response = await axios.get(
+        `https://api.github.com/search/issues?q=repo:brunosllz/github-blog%20${searchIssue}`,
+      )
+
+      console.log(response)
+    }
+    searchIssueFilter()
+  }, [searchIssue])
 
   return (
     <main className="bg-base-background max-w-[864px] mx-auto flex flex-col gap-12">
@@ -107,10 +119,18 @@ export function Home() {
       <div className="w-full flex flex-col gap-3 mt-6">
         <div className="flex items-center justify-between">
           <strong className="text-lg text-base-title">Publicações</strong>
-          <span className="text-sm text-base-span">6 publicações</span>
+          <span className="text-sm text-base-span">
+            {issues.length > 1
+              ? `${issues.length} publicações`
+              : `${issues.length} publicação`}
+          </span>
         </div>
         <input
           placeholder="Buscar conteúdo"
+          value={searchIssue}
+          onChange={(e) => {
+            setSearchIssue(e.target.value)
+          }}
           className="w-full px-4 py-3 rounded-md bg-base-input ring-1 ring-base-border focus:ring-1 focus:ring-blue placeholder:text-base-label outline-none"
         />
       </div>
