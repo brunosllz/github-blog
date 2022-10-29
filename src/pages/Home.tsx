@@ -9,34 +9,13 @@ import { BuildingSolid } from '../assets/BuildingSolid'
 import { GithubBrand } from '../assets/GithubBrand'
 import { UserGroup } from '../assets/UserGroup'
 import { useFetchUser } from '../hooks/useUserData'
-
-interface IssuesProps {
-  number: number
-  title: string
-  body: string
-  created_at: Date
-}
+import { useFetchIssues } from '../hooks/useIssuesData'
 
 export function Home() {
-  const [issues, setIssues] = useState<IssuesProps[]>([])
-  const [loading, setLoading] = useState(false)
   const [searchIssue, setSearchIssue] = useState('')
 
-  const { data } = useFetchUser()
-
-  async function fetchIssues() {
-    setLoading(true)
-    const response = await axios.get(
-      'https://api.github.com/search/issues?q=repo:brunosllz/github-blog',
-    )
-
-    setIssues(response.data.items)
-    setLoading(false)
-  }
-
-  useEffect(() => {
-    fetchIssues()
-  }, [])
+  const { data: user } = useFetchUser()
+  const { data: issues } = useFetchIssues()
 
   useEffect(() => {
     async function searchIssueFilter() {
@@ -62,10 +41,10 @@ export function Home() {
 
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <strong className="text-2xl text-base-title">{data?.name}</strong>
+            <strong className="text-2xl text-base-title">{user?.name}</strong>
 
             <a
-              href={data?.html_url}
+              href={user?.html_url}
               target="_blank"
               className=" text-blue font-bold flex items-center gap-2"
               rel="noreferrer"
@@ -75,20 +54,20 @@ export function Home() {
             </a>
           </div>
 
-          <p className="leading-[160%]">{data?.bio}</p>
+          <p className="leading-[160%]">{user?.bio}</p>
 
           <div className="flex items-center gap-6 mt-4">
             <div className="flex items-center gap-2">
               <GithubBrand />
-              <span className="text-base-subtitle">{data?.login}</span>
+              <span className="text-base-subtitle">{user?.login}</span>
             </div>
             <div className="flex items-center gap-2">
               <BuildingSolid />
-              <span>{data?.company}</span>
+              <span>{user?.company}</span>
             </div>
             <div className="flex items-center gap-2">
               <UserGroup />
-              <span>{data?.followers} seguidores</span>
+              <span>{user?.followers} seguidores</span>
             </div>
           </div>
         </div>
@@ -98,9 +77,9 @@ export function Home() {
         <div className="flex items-center justify-between">
           <strong className="text-lg text-base-title">Publicações</strong>
           <span className="text-sm text-base-span">
-            {issues.length > 1
-              ? `${issues.length} publicações`
-              : `${issues.length} publicação`}
+            {issues?.length! > 1
+              ? `${issues?.length} publicações`
+              : `${issues?.length} publicação`}
           </span>
         </div>
         <input
@@ -114,32 +93,26 @@ export function Home() {
       </div>
 
       <ul className="grid grid-cols-2 gap-8 mb-14">
-        {!loading ? (
-          issues.map((issue) => {
-            return (
-              <Link key={issue.number} to={`issues/details/${issue.number}`}>
-                <li className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors">
-                  <div className="flex justify-between">
-                    <strong className="text-base-title text-xl max-w-[280px]">
-                      {issue.title}
-                    </strong>
-                    <span className="block text-sm text-base-span">
-                      Há 1 dia
-                    </span>
-                  </div>
-                  <ReactMarkDown
-                    remarkPlugins={[remarkGfm]}
-                    className="line-clamp-4 "
-                  >
-                    {issue.body}
-                  </ReactMarkDown>
-                </li>
-              </Link>
-            )
-          })
-        ) : (
-          <div>loading</div>
-        )}
+        {issues?.map((issue) => {
+          return (
+            <Link key={issue.number} to={`issues/details/${issue.number}`}>
+              <li className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors">
+                <div className="flex justify-between">
+                  <strong className="text-base-title text-xl max-w-[280px]">
+                    {issue.title}
+                  </strong>
+                  <span className="block text-sm text-base-span">Há 1 dia</span>
+                </div>
+                <ReactMarkDown
+                  remarkPlugins={[remarkGfm]}
+                  className="line-clamp-4 "
+                >
+                  {issue.body}
+                </ReactMarkDown>
+              </li>
+            </Link>
+          )
+        })}
       </ul>
     </main>
   )
