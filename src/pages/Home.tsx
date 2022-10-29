@@ -1,6 +1,9 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
+import ReactMarkDown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+
 import { ArrowSquareOut } from '../assets/ArrowSquareOut'
 import { BuildingSolid } from '../assets/BuildingSolid'
 import { GithubBrand } from '../assets/GithubBrand'
@@ -116,7 +119,7 @@ export function Home() {
         {!loading ? (
           issues.map((issue) => {
             return (
-              <Link key={issue.number} to="issues/details">
+              <Link key={issue.number} to={`issues/details/${issue.number}`}>
                 <li className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors">
                   <div className="flex justify-between">
                     <strong className="text-base-title text-xl max-w-[280px]">
@@ -126,7 +129,12 @@ export function Home() {
                       Há 1 dia
                     </span>
                   </div>
-                  <p className="line-clamp-4 ">{issue.body}</p>
+                  <ReactMarkDown
+                    remarkPlugins={[remarkGfm]}
+                    className="line-clamp-4 "
+                  >
+                    {issue.body}
+                  </ReactMarkDown>
                 </li>
               </Link>
             )
