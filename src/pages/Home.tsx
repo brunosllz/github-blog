@@ -9,7 +9,7 @@ import { BuildingSolid } from '../assets/BuildingSolid'
 import { GithubBrand } from '../assets/GithubBrand'
 import { UserGroup } from '../assets/UserGroup'
 
-interface UserProps {
+export interface UserProps {
   login: string
   id: number
   html_url: string
