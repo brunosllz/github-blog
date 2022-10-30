@@ -1,5 +1,3 @@
-import ReactMarkDown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import { useFetchIssueDetails } from '../hooks/useIssuesData'
 
 import { Link, useParams } from 'react-router-dom'
@@ -9,11 +7,14 @@ import { CaretLeft } from 'phosphor-react'
 import { GithubBrand } from '../assets/GithubBrand'
 import { Calendar } from '../assets/Calendar'
 import { Comment } from '../assets/Comment'
+import { IssueDetailsMarkDown } from '../components/IssueDetailsMarkDown'
 
 export function IssueDetails() {
   const { id } = useParams()
 
   const { data: issue } = useFetchIssueDetails(id)
+
+  console.log(issue?.body)
 
   return (
     <main className="bg-base-background max-w-[864px] mx-auto flex flex-col">
@@ -62,9 +63,7 @@ export function IssueDetails() {
       }
 
       <div className="py-10 px-8">
-        <ReactMarkDown remarkPlugins={[remarkGfm]}>
-          {issue?.body!}
-        </ReactMarkDown>
+        <IssueDetailsMarkDown>{issue?.body!}</IssueDetailsMarkDown>
       </div>
     </main>
   )
