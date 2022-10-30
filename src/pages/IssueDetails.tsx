@@ -1,15 +1,15 @@
 import { useFetchIssueDetails } from '../hooks/useIssuesData'
-
+import { ptBR } from 'date-fns/locale'
 import { Link, useParams } from 'react-router-dom'
+import { formatDistanceToNow } from 'date-fns'
+
+import { IssueDetailsMarkDown } from '../components/IssueDetailsMarkDown'
 
 import { ArrowSquareOut } from '../assets/ArrowSquareOut'
-import { CaretLeft } from 'phosphor-react'
 import { GithubBrand } from '../assets/GithubBrand'
 import { Calendar } from '../assets/Calendar'
 import { Comment } from '../assets/Comment'
-import { IssueDetailsMarkDown } from '../components/IssueDetailsMarkDown'
-import { formatDistanceToNow } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { CaretLeft } from 'phosphor-react'
 
 export function IssueDetails() {
   const { id } = useParams()
@@ -22,7 +22,10 @@ export function IssueDetails() {
         <header className="py-8 px-10 flex gap-8 bg-base-profile rounded-[10px] -mt-[106px] overflow-hidden">
           <div className="flex flex-col gap-2 w-full">
             <div className="flex items-center justify-between mb-5">
-              <Link to="/" className="flex items-center gap-2 text-blue">
+              <Link
+                to="/"
+                className="flex items-center gap-2 py-1 text-blue border-b border-transparent transition-colors hover:border-b hover:border-blue"
+              >
                 <CaretLeft size={12} weight="bold" />
                 <span className="text-xs uppercase font-bold">Voltar</span>
               </Link>
@@ -30,7 +33,7 @@ export function IssueDetails() {
               <a
                 href={issue?.html_url}
                 target="_blank"
-                className=" text-blue font-bold flex items-center gap-2 text-xs"
+                className=" text-blue font-bold flex items-center gap-2 py-1 text-xs border-b border-transparent transition-colors hover:border-b hover:border-blue"
                 rel="noreferrer"
               >
                 VER NO GITHUB

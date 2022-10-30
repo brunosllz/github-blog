@@ -1,6 +1,5 @@
 import ReactMarkDown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-
 import { Link } from 'react-router-dom'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'

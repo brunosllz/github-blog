@@ -8,8 +8,8 @@ import { ArrowSquareOut } from '../assets/ArrowSquareOut'
 import { BuildingSolid } from '../assets/BuildingSolid'
 import { GithubBrand } from '../assets/GithubBrand'
 import { UserGroup } from '../assets/UserGroup'
-import { WarningCircle } from 'phosphor-react'
 import { IssueCardSkeleton } from '../components/IssueCardSkeleton'
+import { WarningCircle } from 'phosphor-react'
 
 export function Home() {
   const [searchIssue, setSearchIssue] = useState('')
@@ -31,13 +31,13 @@ export function Home() {
         </div>
 
         <div className="flex flex-col gap-2 w-full">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between ">
             <strong className="text-2xl text-base-title">{user?.name}</strong>
 
             <a
               href={user?.html_url!}
               target="_blank"
-              className=" text-blue font-bold flex items-center gap-2 text-xs"
+              className=" text-blue font-bold flex items-center gap-2 text-xs py-1 border-b border-transparent transition-colors hover:border-b hover:border-blue"
               rel="noreferrer"
             >
               GITHUB
