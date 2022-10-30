@@ -24,10 +24,10 @@ export function IssueCard({ data }: IssueCardProps) {
         className="flex flex-col p-8 gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors"
       >
         <div className="flex justify-between">
-          <strong className="text-base-title text-xl max-w-[280px]">
+          <strong className="text-base-title text-xl max-w-[280px] line-clamp-2">
             {data.title}
           </strong>
-          <span className="block text-sm text-base-span">
+          <span className="block text-sm text-base-span truncate">
             {formatDistanceToNow(new Date(data.created_at), {
               addSuffix: true,
               locale: ptBR,
