@@ -29,6 +29,7 @@ export function IssueDetails() {
 
               <a
                 href={issue?.html_url}
+                target="_blank"
                 className=" text-blue font-bold flex items-center gap-2 text-xs"
                 rel="noreferrer"
               >

@@ -21,13 +21,13 @@ export function IssueCard({ data }: IssueCardProps) {
     <li>
       <Link
         to={`issues/details/${data.number}`}
-        className="flex flex-col p-8 gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors"
+        className="flex flex-col p-8 justify-between bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors h-[16.25rem]"
       >
         <div className="flex justify-between">
-          <strong className="text-base-title text-xl max-w-[280px] line-clamp-2">
+          <strong className="text-base-title text-xl max-w-[256px] line-clamp-3 ">
             {data.title}
           </strong>
-          <span className="block text-sm text-base-span truncate">
+          <span className="block text-sm text-base-span">
             {formatDistanceToNow(new Date(data.created_at), {
               addSuffix: true,
               locale: ptBR,

@@ -21,7 +21,7 @@ export function Home() {
 
   return (
     <main className="bg-base-background max-w-[864px] mx-auto flex flex-col gap-12">
-      <header className="py-8 px-10 flex gap-8 bg-base-profile rounded-[10px] -mt-[106px] overflow-hidden">
+      <header className="py-8 px-10 flex items-center gap-8 bg-base-profile rounded-[10px] -mt-[106px] overflow-hidden">
         <div className="flex-none rounded-lg overflow-hidden w-[148px] h-[148px] items-center justify-center ">
           <img
             src="https://avatars.githubusercontent.com/u/69438694?v=4"
@@ -30,14 +30,14 @@ export function Home() {
           />
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-full">
           <div className="flex items-center justify-between">
             <strong className="text-2xl text-base-title">{user?.name}</strong>
 
             <a
               href={user?.html_url!}
               target="_blank"
-              className=" text-blue font-bold flex items-center gap-2"
+              className=" text-blue font-bold flex items-center gap-2 text-xs"
               rel="noreferrer"
             >
               GITHUB
