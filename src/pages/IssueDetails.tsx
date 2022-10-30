@@ -14,9 +14,7 @@ import { ptBR } from 'date-fns/locale'
 export function IssueDetails() {
   const { id } = useParams()
 
-  const { data: issue } = useFetchIssueDetails(id)
-
-  console.log(issue?.body)
+  const { data: issue, isLoading } = useFetchIssueDetails(id)
 
   return (
     <main className="bg-base-background max-w-[864px] mx-auto flex flex-col">
@@ -52,11 +50,11 @@ export function IssueDetails() {
               <div className="flex items-center gap-2 text-base-label">
                 <Calendar />
                 <span className="text-base-span">
-                  {' '}
-                  {formatDistanceToNow(new Date(issue?.created_at!), {
-                    addSuffix: true,
-                    locale: ptBR,
-                  })}
+                  {!isLoading &&
+                    formatDistanceToNow(new Date(issue?.created_at!), {
+                      addSuffix: true,
+                      locale: ptBR,
+                    })}
                 </span>
               </div>
               <div className="flex items-center gap-2 text-base-label">

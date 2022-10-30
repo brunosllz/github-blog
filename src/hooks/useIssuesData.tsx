@@ -5,7 +5,7 @@ interface IssuesProps {
   number: number
   title: string
   body: string
-  created_at: Date
+  created_at: string
 }
 
 async function fetchIssues() {
@@ -42,7 +42,7 @@ interface IssueDetailsProps {
   body: string
   html_url: string
   comments: number
-  created_at: Date
+  created_at: string
   user: {
     login: string
   }

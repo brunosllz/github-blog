@@ -9,12 +9,13 @@ import { BuildingSolid } from '../assets/BuildingSolid'
 import { GithubBrand } from '../assets/GithubBrand'
 import { UserGroup } from '../assets/UserGroup'
 import { WarningCircle } from 'phosphor-react'
+import { IssueCardSkeleton } from '../components/IssueCardSkeleton'
 
 export function Home() {
   const [searchIssue, setSearchIssue] = useState('')
 
   const { data: user } = useFetchUser()
-  const { issues } = useFetchIssues(searchIssue)
+  const { issues, isLoading } = useFetchIssues(searchIssue)
 
   const hasIssues = issues?.length! > 0
 
@@ -82,17 +83,23 @@ export function Home() {
         />
       </div>
 
-      <ul className="grid grid-cols-2 gap-8 mb-14">
-        {issues?.map((issue) => {
-          return <IssueCard data={issue} key={issue.number} />
-        })}
-      </ul>
+      {isLoading ? (
+        <IssueCardSkeleton />
+      ) : (
+        <>
+          <ul className="grid grid-cols-2 gap-8 mb-14">
+            {issues?.map((issue) => {
+              return <IssueCard data={issue} key={issue.number} />
+            })}
+          </ul>
 
-      {!hasIssues && (
-        <div className="flex flex-col gap-4 items-center justify-center">
-          <WarningCircle size={32} />
-          Não foi posssível encontrar uma issue
-        </div>
+          {!hasIssues && (
+            <div className="flex flex-col gap-4 items-center justify-center">
+              <WarningCircle size={32} />
+              Não foi posssível encontrar uma issue
+            </div>
+          )}
+        </>
       )}
     </main>
   )

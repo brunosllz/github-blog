@@ -9,7 +9,7 @@ interface IssueProps {
   number: number
   title: string
   body: string
-  created_at: Date
+  created_at: string
 }
 
 interface IssueCardProps {
@@ -21,7 +21,7 @@ export function IssueCard({ data }: IssueCardProps) {
     <li>
       <Link
         to={`issues/details/${data.number}`}
-        className="flex flex-col p-8  gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors"
+        className="flex flex-col p-8 gap-5 bg-base-post rounded-[10px] hover:ring-1 hover:ring-base-label transition-colors"
       >
         <div className="flex justify-between">
           <strong className="text-base-title text-xl max-w-[280px]">

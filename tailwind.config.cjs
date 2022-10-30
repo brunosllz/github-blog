@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  mode: 'jit',
   content: ['./src/**/*.tsx'],
   theme: {
     colors: {
@@ -22,7 +21,7 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        'background-header': "url('./src/assets/background-header.png')",
+        'cover-header': "url('/cover-header.png')",
       },
     },
   },
