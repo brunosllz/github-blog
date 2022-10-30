@@ -17,7 +17,7 @@
 
 ## [](https://github.com/brunosllz/github-blog#--sobre-o-projeto) 💻 Sobre o projeto
 
-Projeto desenvolvido no terceiro desafio da trilha de ReactJS no Ignite da [Rocketseat](https://www.rocketseat.com.br/), o projeto tem como premissa reforçar os conceitos do React como Fetch / Axios, Roteamento e React Router DOM e Formulários
+Projeto desenvolvido no terceiro desafio da trilha de ReactJS no Ignite da [Rocketseat](https://www.rocketseat.com.br/), o projeto tem como premissa reforçar os conceitos do React como Fetch / Axios, Roteamento React Router DOM e Formulários
 
 ---
 
