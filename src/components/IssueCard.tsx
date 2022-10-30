@@ -2,6 +2,8 @@ import ReactMarkDown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 import { Link } from 'react-router-dom'
+import { formatDistanceToNow } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 interface IssueProps {
   number: number
@@ -25,7 +27,12 @@ export function IssueCard({ data }: IssueCardProps) {
           <strong className="text-base-title text-xl max-w-[280px]">
             {data.title}
           </strong>
-          <span className="block text-sm text-base-span">Há 1 dia</span>
+          <span className="block text-sm text-base-span">
+            {formatDistanceToNow(new Date(data.created_at), {
+              addSuffix: true,
+              locale: ptBR,
+            })}
+          </span>
         </div>
         <ReactMarkDown remarkPlugins={[remarkGfm]} className="line-clamp-4 ">
           {data.body}

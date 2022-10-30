@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { useFetchIssues } from '../hooks/useIssuesData'
 import { useFetchUser } from '../hooks/useUserData'
 
+import { IssueCard } from '../components/IssueCard'
+
 import { ArrowSquareOut } from '../assets/ArrowSquareOut'
 import { BuildingSolid } from '../assets/BuildingSolid'
 import { GithubBrand } from '../assets/GithubBrand'
 import { UserGroup } from '../assets/UserGroup'
-import { IssueCard } from '../components/IssueCard'
+import { WarningCircle } from 'phosphor-react'
 
 export function Home() {
   const [searchIssue, setSearchIssue] = useState('')
@@ -85,7 +87,13 @@ export function Home() {
           return <IssueCard data={issue} key={issue.number} />
         })}
       </ul>
-      {!hasIssues && <div>Não foi posssivel achar um issue</div>}
+
+      {!hasIssues && (
+        <div className="flex flex-col gap-4 items-center justify-center">
+          <WarningCircle size={32} />
+          Não foi posssível encontrar uma issue
+        </div>
+      )}
     </main>
   )
 }

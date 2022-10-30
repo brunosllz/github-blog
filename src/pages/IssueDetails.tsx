@@ -8,6 +8,8 @@ import { GithubBrand } from '../assets/GithubBrand'
 import { Calendar } from '../assets/Calendar'
 import { Comment } from '../assets/Comment'
 import { IssueDetailsMarkDown } from '../components/IssueDetailsMarkDown'
+import { formatDistanceToNow } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 export function IssueDetails() {
   const { id } = useParams()
@@ -49,7 +51,13 @@ export function IssueDetails() {
               </div>
               <div className="flex items-center gap-2 text-base-label">
                 <Calendar />
-                <span className="text-base-span">Há 1 dia</span>
+                <span className="text-base-span">
+                  {' '}
+                  {formatDistanceToNow(new Date(issue?.created_at!), {
+                    addSuffix: true,
+                    locale: ptBR,
+                  })}
+                </span>
               </div>
               <div className="flex items-center gap-2 text-base-label">
                 <Comment />
